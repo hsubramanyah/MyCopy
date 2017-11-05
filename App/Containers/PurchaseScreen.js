@@ -65,6 +65,7 @@ export default class PurchaseScreen extends Component {
       alert('All Questions Unlocked!');
       navigate('home');
     }
+    
     /*if (this.purchase()) {
       this.userQuestions.child(params._key).set({
         text: params.text,
