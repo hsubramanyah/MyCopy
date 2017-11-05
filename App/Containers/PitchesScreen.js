@@ -133,6 +133,7 @@ console.log(lockedQuestions);
     });
     });
   }
+  
 
   renderFreeItem(task) {
     return (
