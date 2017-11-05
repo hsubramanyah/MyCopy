@@ -16,6 +16,8 @@ import firebaseApp from '../Config/FirebaseConfig'
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import FoundationIcon from 'react-native-vector-icons/Foundation';
 import ImageSlider from 'react-native-image-slider';
+import AWSConfig from '../Config/AWS';
+import { RNS3 } from 'react-native-aws3';
 
 
 const mettlesporticon = require("../Images/Capture.jpg");
@@ -32,6 +34,21 @@ class SignUpScreen extends React.Component {
 
   constructor (props) {
     super(props)
+    //var ques1={};
+    question1 = firebaseApp.database().ref('/questions/question1');
+    question1.on('value', (dataSnapshot) => {
+      ques1={
+      text: dataSnapshot.child("text").val(),
+      response: false,
+      feedback: false
+
+      }
+      this.questions ={
+        question1: ques1
+      }
+    });
+
+
     this.state = {
       email : '',
       name : '',
@@ -40,8 +57,11 @@ class SignUpScreen extends React.Component {
       visibleHeight: Metrics.screenHeight,
       topLogo: { width: Metrics.screenWidth },
       position: 1,
-      interval: null
+      interval: null,
+      //question1: ques1
     }
+
+
   }
 
   componentWillMount () {
@@ -56,6 +76,32 @@ class SignUpScreen extends React.Component {
     this.keyboardDidShowListener.remove()
     this.keyboardDidHideListener.remove()
     clearInterval(this.state.interval);
+  }
+
+  createFoldersInAWS () {
+    const file = {
+      // `uri` can also be a file system path (i.e. file://)
+      uri: '/Users/macpc/Desktop/images.jpeg',
+      name: "image1.jpeg",
+      type: "image/jpeg"
+    }
+
+    const options = {
+      keyPrefix: "testfolder2/",
+      bucket: "react-app-store-video",
+
+      successActionStatus: 201,
+      acl: 'public-read',
+      region:AWSConfig.region,
+      accessKey: AWSConfig.accessKey,
+      secretKey: AWSConfig.secretKey
+    }
+
+    RNS3.put({}, options).then(response => {
+      if (response.status !== 201)
+        throw new Error("Failed to upload image to S3");
+      console.log(response.body);
+    });
   }
 
   keyboardDidShow = (e) => {
@@ -91,24 +137,40 @@ class SignUpScreen extends React.Component {
   }
   //Creates a new user and if that is successful, updates the user information.
   handlePressSignup = () =>{
-    const { name, email, phoneNumber, password } = this.state;
+    console.log('134 ',this.ques1);
+    const { name, email, phoneNumber, password ,question1} = this.state;
     const { navigate } = this.props.navigation;
+
     firebaseApp.auth().createUserWithEmailAndPassword(email, password).then(()=>{
-      this.isAttempting = false;
-      this.getFirebaseRef().child('users').child(firebaseApp.auth().currentUser.uid).push({
-        Name : name,
-        email : email,
-        phoneNumber : phoneNumber
-      }).then(()=>{
-        firebaseApp.auth().currentUser.sendEmailVerification().then(()=>{
-          navigate('login');
-          alert("Please check your email for the verification link");
-        }).catch((error)=>{
-          // Handle Errors here.
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          alert(errorMessage);
-        });
+          this.isAttempting = false;
+      //this.getFirebaseRef().child('users').child(firebaseApp.auth().currentUser.uid).push({
+          this.getFirebaseRef().child('users/'+firebaseApp.auth().currentUser.uid+'/userDetails').set({
+                Name : name,
+                email : email,
+                phoneNumber : phoneNumber
+
+          }).then(()=>{
+
+            this.getFirebaseRef().child('users/'+firebaseApp.auth().currentUser.uid+'/questions').set( this.questions
+
+            ).then(()=>{
+
+                firebaseApp.auth().currentUser.sendEmailVerification().then(()=>{
+                  navigate('login');
+                  alert("Please check your email for the verification link");
+
+                }).catch((error)=>{
+                // Handle Errors here.
+                  var errorCode = error.code;
+                  var errorMessage = error.message;
+                  alert(errorMessage);
+                });
+            }).catch((error)=>{
+              var errorCode = error.code;
+              var errorMessage = error.message;
+              alert(errorMessage);
+            });
+
       }).catch((error)=>{
         // Handle Errors here.
         var errorCode = error.code;
@@ -121,6 +183,8 @@ class SignUpScreen extends React.Component {
       var errorMessage = error.message;
       alert(errorMessage);
     });
+
+
   }
   getFirebaseRef() {
     return firebaseApp.database().ref();

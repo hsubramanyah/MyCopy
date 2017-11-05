@@ -14,8 +14,8 @@ import Metrics from '../Themes/Metrics'
 import RoundedButton from '../Components/RoundedButton'
 import VideoRecorder from 'react-native-beautiful-video-recorder';
 
-const background=require("../Images/grass.png")
-const mettlesporticon = require("../Images/mettle_box_clean.png");
+const background = require('../Images/grass.png');
+const mettlesporticon = require('../Images/mettle_box_clean.png');
 
 export default class HomeScreen extends Component {
   keyboardDidShowListener = {}

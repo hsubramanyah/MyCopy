@@ -49,9 +49,8 @@ export default StyleSheet.create({
     fontFamily: 'Helvetica-Light',
     alignSelf: 'center',
     color: Colors.snow,
-    fontSize: 18,
     fontWeight: 'bold',
-    fontSize:16
+    fontSize: 16
   },
   normalTextStyle: {
     paddingHorizontal:15,

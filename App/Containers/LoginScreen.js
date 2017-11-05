@@ -76,8 +76,16 @@ class LoginScreen extends React.Component{
     const { username, password } = this.state
     const { navigate } = this.props.navigation;
     firebaseApp.auth().signInWithEmailAndPassword(username, password).then(()=>{
-      this.isAttempting = false
-      navigate('home');
+      user = firebaseApp.auth().currentUser;
+      if(user.emailVerified){
+        this.isAttempting = false
+        navigate('home');
+      } else{
+        //alert('Please verfiy your email id!');
+        this.isAttempting = false
+        navigate('home');
+      }
+
     }).catch(function(error) {
       // Handle Errors here.
       var errorCode = error.code;

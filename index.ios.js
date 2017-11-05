@@ -6,14 +6,17 @@
 
 import React, { Component } from 'react';
 import {
-  AppRegistry
+  AppRegistry,
+  View
 } from 'react-native';
 import App from './App/Containers/App'
 
 export default class MyMap2 extends Component {
   render() {
     return(
+      <View style={{flex: 1}}>
       <App />
+      </View>
     )
   }
 }

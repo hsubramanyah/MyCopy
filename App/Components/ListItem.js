@@ -17,7 +17,6 @@ class ListItem extends Component {
 
         <Text style={styles.listItemTitle}>
           {this.props.task.text}
-          <View style={{width: Metrics.screenWidth, height: 5, backgroundColor: 'transparent'}} />
           {this.props.task.address}
         </Text>
 

@@ -17,60 +17,145 @@ import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome'
 import FoundationIcon from 'react-native-vector-icons/Foundation'
 import firebaseApp from '../Config/FirebaseConfig'
 import ListItem from '../Components/ListItem'
+import ListQuestions from '../Components/ListQuestions'
 
-const background=require("../Images/grass.png")
+const background = require('../Images/grass.png');
 
 
 class PitchesScreen extends React.Component {
 
-  constructor (props) {
+  constructor(props) {
     super(props);
-    this.pitchesRef = firebaseApp.database().ref('/questions');
+    this.allQuestions = firebaseApp.database().ref('/questions');
+    this.userQuestions =
+    firebaseApp.database().ref(`users/${firebaseApp.auth().currentUser.uid}/questions`);
 
-    const dataSource = new ListView.DataSource({
+    const dataSourceUserQues = new ListView.DataSource({
       rowHasChanged: (row1, row2) => row1 !== row2,
     });
 
+    const dataSourcePurchaseQues = new ListView.DataSource({
+      rowHasChanged: (row1, row2) => row1 !== row2,
+    });
+
+
+    //test
+    //var ques1={};
+    /*question1 = firebaseApp.database().ref('/questions/question1');
+    question1.on('value', (dataSnapshot) => {
+      this.ques1={
+      text: dataSnapshot.child("text").val(),
+      response: false,
+      feedback: false
+      //delete this.ques1.price;
+
+    }*/
+    question1 = firebaseApp.database().ref('/questions/question1');
+
+    question1.on('value', (dataSnapshot) => {
+      ques1 = {
+      text: dataSnapshot.child('text').val(),
+      response: false,
+      feedback: false
+
+    }
+    this.questions = [{
+      question1: ques1
+    }]
+
+    console.log('log40 ', this.questions);
+    });
+//console.log('log43 ',ques1);
+    //test
     this.state = {
-      dataSource: dataSource
+      dataSourceUserQues: dataSourceUserQues,
+      dataSourcePurchaseQues: dataSourcePurchaseQues
+      //question1 : this.ques1
     };
+    console.log('test ', this.state);
   }
 
   componentDidMount() {
   // start listening for firebase updates
-    this.listenForTasks(this.pitchesRef);
+    this.listenForTasks(this.userQuestions, this.allQuestions);
   }
 
-  listenForTasks(pitchesRef) {
+  containsKey(array, key) {
+    var i;
+    for (i = 0; i < array.length; i++) {
+      if (array[i]._key === key) {
+        return true;
+      }
+    }
+    /*array.forEach((val)=>{
+      console.log(val._key==key);
+      if(val._key==key) {
+        return true;
+      }
+    });*/
+    return false;
+  }
 
-    pitchesRef.on('value', (dataSnapshot) => {
-    var pitchesArray = [];
-    dataSnapshot.forEach((child) => { console.log(child.val());
-      pitchesArray.push({
-        text: child.val().text,
-        // address: child.val().address,
-        // surface: child.val().surface,
-        // lights: child.val().lights,
-        // size: child.val().size,
-        // latitude: child.val().latitude,
-        // longitude: child.val().longitude,
-        //  _key: child.key
+  listenForTasks(userQuestions, allQuestions) {
+    const unlockedQuestions = [];
+    userQuestions.on('value', (dataSnapshot) => {
+      dataSnapshot.forEach((child) => {
+        console.log(child.val());
+        console.log(child.key);
+        unlockedQuestions.push({
+          text: child.val().text,
+          _key: child.key
+        });
       });
-    });
 
+      this.setState({
+        dataSourceUserQues: this.state.dataSourceUserQues.cloneWithRows(unlockedQuestions),
+        unlockedQuestions: unlockedQuestions
+        });
+    });
+    const lockedQuestions = [];
+    allQuestions.on('value', (dataSnapshot) => {
+      dataSnapshot.forEach((child) => {
+        console.log(child.val());
+        console.log(child.key);
+        if (!this.containsKey(unlockedQuestions, child.key)) {
+          lockedQuestions.push({
+            text: child.val().text,
+            price: child.val().price,
+            _key: child.key
+          });
+        }
+      });
+console.log(lockedQuestions);
     this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(pitchesArray)
+      dataSourcePurchaseQues: this.state.dataSourceUserQues.cloneWithRows(lockedQuestions),
+      lockedQuestions: lockedQuestions
     });
     });
   }
 
-  renderItem(task) {
+  renderFreeItem(task) {
     return (
-      <TouchableOpacity  onPress={() => this.props.navigation.navigate("singlePitchFunctionsScreen", { text:
-            `${task.text}`
-              //, address: `${task.address}`, surface: `${task.surface}`, lights: `${task.lights}`, size: `${task.size}`, latitude: `${task.latitude}`, longitude: `${task.longitude}`
+      <TouchableOpacity
+        onPress={() => this.props.navigation.navigate('singlePitchFunctionsScreen',
+        { text: `${task.text}`,
+          _key: `${task._key}`
+        })}
+      >
+
+        <ListQuestions task={task} />
+      </TouchableOpacity>
+    );
+  }
+
+  renderLockedItem(task) {
+    console.log(this.state);
+    return (
+      <TouchableOpacity  onPress={() => this.props.navigation.navigate('purchaseScreen', { text:
+            `${task.text}`, _key: `${task._key}`, price: `${task.price}`, lockedQuestions: this.state.lockedQuestions
+              //, surface: `${task.surface}`, lights: `${task.lights}`, size: `${task.size}`, latitude: `${task.latitude}`, longitude: `${task.longitude}`
             })}>
-        < ListItem task={task} />
+        < ListQuestions task={task} />
       </TouchableOpacity>
     );
   }
@@ -81,7 +166,7 @@ class PitchesScreen extends React.Component {
   }
 
 
-  render () {
+  render() {
     //const { email } = this.state;
     //const textInputStyle =  Styles.textInput;
     return (
@@ -89,9 +174,15 @@ class PitchesScreen extends React.Component {
         <View style= {PitchListStyles.container}>
         <ScrollView contentContainerStyle={{justifyContent: 'center'}} style={[PitchListStyles.container, {height: this.state.visibleHeight}]} keyboardShouldPersistTaps='always'>
           <ListView
-              dataSource={this.state.dataSource}
+              dataSource={this.state.dataSourceUserQues}
               enableEmptySections={true}
-              renderRow={this.renderItem.bind(this)}
+              renderRow={this.renderFreeItem.bind(this)}
+              style={PitchListStyles.listView}
+          />
+          <ListView
+              dataSource={this.state.dataSourcePurchaseQues}
+              enableEmptySections={true}
+              renderRow={this.renderLockedItem.bind(this)}
               style={PitchListStyles.listView}
           />
         </ScrollView>

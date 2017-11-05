@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, Text} from 'react-native';
-import {StackNavigator} from 'react-navigation';
+//import { StyleSheet, View, Text } from 'react-native';
+import { StackNavigator } from 'react-navigation';
 
 import SplashScreen from './SplashScreen';
 import LoginScreen from './LoginScreen';
@@ -11,6 +11,7 @@ import PitchLocatorScreen from './PitchLocatorScreen';
 import AddPitchScreen from './AddPitchScreen';
 import PitchesScreen from './PitchesScreen';
 import SinglePitchFunctionsScreen from './SinglePitchFunctionsScreen';
+import PurchaseScreen from './PurchaseScreen';
 
 const App = StackNavigator({
   splash:{
@@ -18,7 +19,7 @@ const App = StackNavigator({
       navigationOptions:{
         headerStyle:{ position: 'absolute', backgroundColor: 'transparent', borderBottomWidth: 0, zIndex: 100, top: 0, left: 0, right: 0 },
         headerVisible: false,
-        left: null,
+        headerLeft: null,
       }
   },
   login:{
@@ -26,7 +27,7 @@ const App = StackNavigator({
       navigationOptions:{
         headerStyle:{ position: 'absolute', backgroundColor: 'transparent', borderBottomWidth: 0, zIndex: 100, top: 0, left: 0, right: 0 },
         headerVisible: false,
-        left: null,
+        headerLeft: null,
       }
   },
   home:{
@@ -34,7 +35,8 @@ const App = StackNavigator({
       navigationOptions:{
         headerStyle:{ position: 'absolute', backgroundColor: 'transparent', zIndex: 100, top: 0, left: 0, right: 0 },
         headerVisible: false,
-        title: 'Home'
+        title: 'Home',
+        headerLeft: null,
       }
   },
   signUp:{
@@ -81,6 +83,20 @@ const App = StackNavigator({
         headerStyle:{ position: 'absolute', backgroundColor: 'transparent', zIndex: 100, top: 0, left: 0, right: 0 },
         headerVisible: false,
         title:'Record Video'
+      }
+  },
+  purchaseScreen: {
+      screen: PurchaseScreen,
+      navigationOptions: {
+        headerStyle: { position: 'absolute',
+        backgroundColor: 'transparent',
+        zIndex: 100,
+        top: 0,
+        left: 0,
+        right: 0
+      },
+        headerVisible: false,
+        title: 'Purchase Questions'
       }
   }
 },{ mode: 'modal' })
