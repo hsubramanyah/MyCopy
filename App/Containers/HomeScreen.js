@@ -5,7 +5,8 @@ import {
   ScrollView,
   Text,
   TextInput,
-  Image,
+  ImageBackground,
+  Image
 } from 'react-native'
 import firebaseApp from '../Config/FirebaseConfig'
 import Styles from './Styles/LoginScreenStyles'
@@ -84,7 +85,7 @@ export default class HomeScreen extends Component {
 
   render() {
     return (
-      <Image source={background} style={[Styles.backgroundImage]}>
+      <ImageBackground source={background} style={[Styles.backgroundImage]}>
         <ScrollView contentContainerStyle={{justifyContent: 'center'}} style={[Styles.container]} keyboardShouldPersistTaps='always'>
         <View style={Styles.logoWrapper}>
           <Image source={mettlesporticon} style={[Styles.topLogo, this.state.topLogo]} />
@@ -107,7 +108,7 @@ export default class HomeScreen extends Component {
             </View>
           </View>
         </ScrollView>
-      </Image>
+      </ImageBackground>
     )
   }
 }

@@ -5,7 +5,7 @@ import {
   ScrollView,
   Text,
   TextInput,
-  Image,
+  ImageBackground,
   TouchableOpacity,
   ListView
 } from 'react-native'
@@ -133,7 +133,7 @@ console.log(lockedQuestions);
     });
     });
   }
-  
+
 
   renderFreeItem(task) {
     return (
@@ -171,9 +171,14 @@ console.log(lockedQuestions);
     //const { email } = this.state;
     //const textInputStyle =  Styles.textInput;
     return (
-      <Image source={background} style={[PitchListStyles.backgroundImage]}>
-        <View style= {PitchListStyles.container}>
-        <ScrollView contentContainerStyle={{justifyContent: 'center'}} style={[PitchListStyles.container, {height: this.state.visibleHeight}]} keyboardShouldPersistTaps='always'>
+      <ImageBackground source={background} style={[PitchListStyles.backgroundImage]}>
+        <View style={PitchListStyles.container}>
+        <ScrollView
+          contentContainerStyle={{ justifyContent: 'center' }}
+          style={[PitchListStyles.container,
+            { height: this.state.visibleHeight}] }
+          keyboardShouldPersistTaps='always'
+        >
           <ListView
               dataSource={this.state.dataSourceUserQues}
               enableEmptySections={true}
@@ -188,7 +193,7 @@ console.log(lockedQuestions);
           />
         </ScrollView>
         </View>
-      </Image>
+      </ImageBackground>
     )
   }
 

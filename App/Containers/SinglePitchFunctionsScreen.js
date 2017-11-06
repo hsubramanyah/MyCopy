@@ -4,6 +4,7 @@ import {
   View,
   ScrollView,
   Image,
+  ImageBackground,
   Dimensions
 } from 'react-native';
 import getDirections from 'react-native-google-maps-directions';
@@ -176,7 +177,7 @@ export default class HomeScreen extends Component {
     render() {
 
       return (
-        <Image source={background} style={[Styles.backgroundImage]}>
+        <ImageBackground source={background} style={[Styles.backgroundImage]}>
         <ScrollView
         contentContainerStyle={{ justifyContent: 'center' }}
         style={[Styles.container]} keyboardShouldPersistTaps='always'
@@ -202,7 +203,7 @@ export default class HomeScreen extends Component {
         </View>
         </View>
         </ScrollView>
-        </Image>
+        </ImageBackground>
       )
     }
   }

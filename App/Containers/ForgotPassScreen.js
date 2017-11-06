@@ -5,7 +5,7 @@ import {
   ScrollView,
   Text,
   TextInput,
-  Image,
+  ImageBackground,
   TouchableOpacity
 } from 'react-native'
 import Styles from './Styles/ForgotPassScreenStyles'
@@ -51,7 +51,7 @@ class LoginScreen extends React.Component {
     const { email } = this.state;
     const textInputStyle =  Styles.textInput;
     return (
-      <Image source={background} style={[Styles.backgroundImage]}>
+      <ImageBackground source={background} style={[Styles.backgroundImage]}>
         <ScrollView contentContainerStyle={{justifyContent: 'center'}} style={[Styles.container, {height: this.state.visibleHeight}]} keyboardShouldPersistTaps='always'>
 
 
@@ -85,7 +85,7 @@ class LoginScreen extends React.Component {
 
 
         </ScrollView>
-      </Image>
+      </ImageBackground>
     )
   }
 

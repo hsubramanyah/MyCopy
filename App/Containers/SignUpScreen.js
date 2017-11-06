@@ -5,7 +5,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  Image,
+  ImageBackground,
   Keyboard,
   LayoutAnimation
 } from 'react-native'
@@ -192,7 +192,7 @@ class SignUpScreen extends React.Component {
   render () {
     const { name, email, phoneNumber, password } = this.state;
     return (
-      <Image source={background} style={[Styles.backgroundImage]}>
+      <ImageBackground source={background} style={[Styles.backgroundImage]}>
         <ScrollView contentContainerStyle={{justifyContent: 'center'}} style={[Styles.container, {height: this.state.visibleHeight}]} keyboardShouldPersistTaps='always'>
         <View style={Styles.textWrapper}>
               <Text style={Styles.textStyle}>
@@ -309,7 +309,7 @@ class SignUpScreen extends React.Component {
 
 
               </ScrollView>
-      </Image>
+      </ImageBackground>
     )
   }
 

@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  ImageBackground,
   Keyboard,
   LayoutAnimation,
   TouchableHighlight
@@ -108,7 +109,7 @@ class LoginScreen extends React.Component{
     const editable = !fetching
     const textInputStyle = editable ? Styles.textInput : Styles.textInputReadonly
     return (
-      <Image source={background} style={[Styles.backgroundImage]}>
+      <ImageBackground source={background} style={[Styles.backgroundImage]}>
         <ScrollView contentContainerStyle={{justifyContent: 'center'}} style={[Styles.container, {height: this.state.visibleHeight}]} keyboardShouldPersistTaps='always'>
         <View style={Styles.logoWrapper}>
           <Image source={mettlesporticon} style={[Styles.topLogo, this.state.topLogo]} />
@@ -183,7 +184,7 @@ class LoginScreen extends React.Component{
           </TouchableHighlight>
           </View>
         </ScrollView>
-      </Image>
+      </ImageBackground>
     )
   }
 }

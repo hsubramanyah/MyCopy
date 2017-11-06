@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Image, View, ScrollView, Text } from 'react-native'
+import { Image, ImageBackground, View, ScrollView, Text } from 'react-native'
 import Styles from './Styles/SplashScreenStyles'
 import { NavigationActions } from 'react-navigation'
 import AWSConfig from '../Config/AWS';
@@ -73,13 +73,13 @@ export default class SplashScreen extends Component {
     return (
 
       <View style={{flex:1}}>
-      <Image source={background} style={[Styles.backgroundImage]}>
+      <ImageBackground source={background} style={[Styles.backgroundImage]}>
 
       <ScrollView contentContainerStyle={{flex:1, flexDirection: 'column', justifyContent: 'center'}} style={[Styles.container]} keyboardShouldPersistTaps='always'>
 
           <Image source={mettlesporticon} style={[Styles.topLogo]} />
         </ScrollView>
-      </Image>
+      </ImageBackground>
       </View>
     )
   }
