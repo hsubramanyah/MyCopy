@@ -42,7 +42,7 @@ class PitchesScreen extends React.Component {
     //test
     //var ques1={};
     /*question1 = firebaseApp.database().ref('/questions/question1');
-    question1.on('value', (dataSnapshot) => {
+    question1.once('value', (dataSnapshot) => {
       this.ques1={
       text: dataSnapshot.child("text").val(),
       response: false,
@@ -52,7 +52,7 @@ class PitchesScreen extends React.Component {
     }*/
     question1 = firebaseApp.database().ref('/questions/question1');
 
-    question1.on('value', (dataSnapshot) => {
+    question1.once('value', (dataSnapshot) => {
       ques1 = {
       text: dataSnapshot.child('text').val(),
       response: false,
@@ -98,7 +98,7 @@ class PitchesScreen extends React.Component {
 
   listenForTasks(userQuestions, allQuestions) {
     const unlockedQuestions = [];
-    userQuestions.on('value', (dataSnapshot) => {
+    userQuestions.once('value', (dataSnapshot) => {
       dataSnapshot.forEach((child) => {
         console.log(child.val());
         console.log(child.key);
@@ -114,7 +114,7 @@ class PitchesScreen extends React.Component {
         });
     });
     const lockedQuestions = [];
-    allQuestions.on('value', (dataSnapshot) => {
+    allQuestions.once('value', (dataSnapshot) => {
       dataSnapshot.forEach((child) => {
         console.log(child.val());
         console.log(child.key);

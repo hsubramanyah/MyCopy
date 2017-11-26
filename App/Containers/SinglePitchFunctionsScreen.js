@@ -20,6 +20,9 @@ import Metrics from '../Themes/Metrics'
 import RoundedButton from '../Components/RoundedButton'
 import ImagePicker from 'react-native-image-picker';
 import getDirections from 'react-native-google-maps-directions'
+import AWSConfig from '../Config/AWS';
+import { RNS3 } from 'react-native-aws3';
+const AWS = require('aws-sdk');
 
 
 const background=require("../Images/grass.png")
@@ -37,6 +40,7 @@ export default class HomeScreen extends Component {
   keyboardDidHideListener = {}
   constructor(props) {
     super(props)
+
     this.pitchesRef = firebaseApp.database().ref().child('/pitches');
 
     this.state = {
@@ -127,6 +131,60 @@ export default class HomeScreen extends Component {
     })
   }
 
+  createFoldersInAWS=() => {
+    const { params } = this.props.navigation.state;
+    const user = firebaseApp.auth().currentUser;
+    console.log(this.props.navigation.state);
+    const file = {
+      // `uri` can also be a file system path (i.e. file://)
+      //uri: '/Users/macpc/Downloads/sample_iTunes.mov',
+      uri: this.state.videoSource,
+      name: `${params._key}_response.mov`,
+      type: 'video/quicktime'
+    }
+
+    const options = {
+      keyPrefix: `${user.email}/${params._key}/response/`,
+      bucket: 'react-app-store-video',
+
+      successActionStatus: 201,
+      acl: 'public-read',
+      region: AWSConfig.region,
+      accessKey: AWSConfig.accessKey,
+      secretKey: AWSConfig.secretKey
+    }
+    const question = firebaseApp.database().ref().child('users/' + user.uid + '/questions/' + params._key + '/');
+
+    RNS3.put(file, options).then(response => {
+      if (response.status !== 201) {
+        console.log('Fail!!!!!', response.body);
+        //throw new Error('Failed to upload image to S3');
+      }else{
+console.log(response.body.postResponse.location);
+question.update({ response: true,
+responseUrl: response.body.postResponse.location});
+}
+    });
+
+    AWS.config.region = AWSConfig.region;
+    AWS.config.accessKeyId = AWSConfig.accessKey;
+    AWS.config.secretAccessKey = AWSConfig.secretKey;
+
+    const s3Client = new AWS.S3();
+    const params1 = { Bucket: 'react-app-store-video',
+                      Key: `${user.email}/${params._key}/feedback/`,
+                      ACL: 'public-read',
+                      Body: 'body' };
+
+    s3Client.upload(params1, (err, data) => {
+      if (err) {
+        console.log('Error creating the folder: ', err);
+    } else {
+      console.log('Successfully created a folder on S3');
+    }
+});
+  }
+
   handlePressLogout = () =>{
     const { navigate } = this.props.navigation;
     firebaseApp.auth().signOut().then(()=>{
@@ -207,6 +265,7 @@ export default class HomeScreen extends Component {
       else {
         let source = { uri: response.uri };
 
+
         // You can also display the image using data:
         // let source = { uri: 'data:image/jpeg;base64,' + response.data };
 
@@ -241,6 +300,7 @@ export default class HomeScreen extends Component {
         this.setState({
           videoSource: response.uri
         });
+        this.createFoldersInAWS();
 }
     });
   }
