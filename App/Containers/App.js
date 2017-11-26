@@ -89,7 +89,7 @@ const App = StackNavigator({
       screen: PurchaseScreen,
       navigationOptions: {
         headerStyle: { position: 'absolute',
-        backgroundColor: 'transparent',
+        //backgroundColor: 'transparent',
         zIndex: 100,
         top: 0,
         left: 0,

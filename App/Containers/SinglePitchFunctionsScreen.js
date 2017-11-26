@@ -40,7 +40,7 @@ export default class HomeScreen extends Component {
   keyboardDidHideListener = {}
   constructor(props) {
     super(props)
-
+    this.createFoldersInAWS();
     this.pitchesRef = firebaseApp.database().ref().child('/pitches');
 
     this.state = {
@@ -137,8 +137,8 @@ export default class HomeScreen extends Component {
     console.log(this.props.navigation.state);
     const file = {
       // `uri` can also be a file system path (i.e. file://)
-      //uri: '/Users/macpc/Downloads/sample_iTunes.mov',
-      uri: this.state.videoSource,
+      uri: '/Users/macpc/Downloads/sample_iTunes.mov',
+      //uri: this.state.videoSource,
       name: `${params._key}_response.mov`,
       type: 'video/quicktime'
     }
@@ -160,7 +160,7 @@ export default class HomeScreen extends Component {
         console.log('Fail!!!!!', response.body);
         //throw new Error('Failed to upload image to S3');
       }else{
-console.log(response.body.postResponse.location);
+console.log(response.body);
 question.update({ response: true,
 responseUrl: response.body.postResponse.location});
 }

@@ -176,7 +176,8 @@ console.log(lockedQuestions);
         <ScrollView
           contentContainerStyle={{ justifyContent: 'center' }}
           style={[PitchListStyles.container,
-            { height: this.state.visibleHeight}] }
+            { height: this.state.visibleHeight,
+            paddingBottom: 50}] }
           keyboardShouldPersistTaps='always'
         >
           <ListView
@@ -191,6 +192,7 @@ console.log(lockedQuestions);
               renderRow={this.renderLockedItem.bind(this)}
               style={PitchListStyles.listView}
           />
+          <Text style={{ paddingTop: 100, backgroundColor: 'transparent' }} />
         </ScrollView>
         </View>
       </ImageBackground>
