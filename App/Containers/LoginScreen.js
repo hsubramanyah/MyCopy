@@ -17,6 +17,7 @@ import Metrics from '../Themes/Metrics'
 import firebaseApp from '../Config/FirebaseConfig'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FoundationIcon from 'react-native-vector-icons/Foundation';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import RoundedButton from '../Components/RoundedButton'
 
 
@@ -126,7 +127,7 @@ class LoginScreen extends React.Component{
             <View style={Styles.row}>
             <View style={{flexDirection: 'row'}}>
             <View style={Styles.iconWrapper}>
-              <FoundationIcon name='torso' size={40} color="#ffffff"/>
+              <FoundationIcon name='torso-business' size={40} color="#ffffff"/>
               </View>
               <View style={Styles.inputTextWrapper}>
               <TextInput
@@ -149,7 +150,7 @@ class LoginScreen extends React.Component{
             <View style={Styles.row}>
             <View style={{flexDirection: 'row'}}>
             <View style={Styles.iconWrapper}>
-              <FoundationIcon name='key' size={40} color="#ffffff"/>
+              <Ionicons name='ios-key' size={40} color="#ffffff"/>
               </View>
               <View style={Styles.inputTextWrapper}>
               <TextInput

@@ -78,7 +78,7 @@ class SignUpScreen extends React.Component {
     clearInterval(this.state.interval);
   }
 
-  createFoldersInAWS () {
+  createFoldersInAWS() {
     const file = {
       // `uri` can also be a file system path (i.e. file://)
       uri: '/Users/macpc/Desktop/images.jpeg',
@@ -92,7 +92,7 @@ class SignUpScreen extends React.Component {
 
       successActionStatus: 201,
       acl: 'public-read',
-      region:AWSConfig.region,
+      region: AWSConfig.region,
       accessKey: AWSConfig.accessKey,
       secretKey: AWSConfig.secretKey
     }

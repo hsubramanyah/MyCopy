@@ -82,7 +82,7 @@ export default StyleSheet.create({
     borderRadius: 10,
     height:40,
     width:120,
-    backgroundColor: Colors.purple,
+    backgroundColor: Colors.fire,
     justifyContent: 'center'
   },
   loginText: {

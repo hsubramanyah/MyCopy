@@ -11,6 +11,7 @@ import Colors from '../Themes/Colors';
 import Styles from './Styles/LoginScreenStyles';
 import RoundedButton from '../Components/RoundedButton';
 import firebaseApp from '../Config/FirebaseConfig';
+import Metrics from '../Themes/Metrics';
 
 const background = require('../Images/grass.png');
 
@@ -65,7 +66,7 @@ export default class PurchaseScreen extends Component {
       alert('All Questions Unlocked!');
       navigate('home');
     }
-    
+
     /*if (this.purchase()) {
       this.userQuestions.child(params._key).set({
         text: params.text,
@@ -86,11 +87,11 @@ export default class PurchaseScreen extends Component {
   render() {
     const { params } = this.props.navigation.state;
     return (
-      <View style={{ flex: 1, justifyContent: 'space-around' }}>
+
       <ImageBackground source={background} style={[Styles.backgroundImage]}>
         <ScrollView
         contentContainerStyle={{ justifyContent: 'center' }}
-        style={[Styles.container]} keyboardShouldPersistTaps='always'
+        style={{paddingTop: 50, height: Metrics.screenHeight}} keyboardShouldPersistTaps='always'
         >
           <View style={{ paddingTop: 50, flex: 1 }} >
 
@@ -120,7 +121,20 @@ export default class PurchaseScreen extends Component {
                  This is a place holder for question description.
                  This is a place holder for question description.
                  This is a place holder for question description.
+                 This is a place holder for question description
+                 Top-Tier Professionals
                  This is a place holder for question description.
+                 This is a place holder for question description.
+                 This is a place holder for question description.
+                 This is a place holder for question description.
+                 This is a place holder for question description.
+                 Top-Tier Professionals
+                 This is a place holder for question description.
+                 This is a place holder for question description.
+                 This is a place holder for question description.
+                 This is a place holder for question description.
+                 This is a place holder for question description.
+
               </Text>
             </View>
 
@@ -142,7 +156,6 @@ export default class PurchaseScreen extends Component {
           </View>
         </ScrollView>
       </ImageBackground>
-      </View>
 
 
     );
