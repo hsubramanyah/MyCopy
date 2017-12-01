@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import App from './App/Containers/App'
 
-export default class MyMap2 extends Component {
+export default class InterviewStudio extends Component {
   render() {
     return(
       <View style={{flex: 1}}>
@@ -21,4 +21,4 @@ export default class MyMap2 extends Component {
   }
 }
 
-AppRegistry.registerComponent('MyMap2', () => MyMap2);
+AppRegistry.registerComponent('InterviewStudio', () => InterviewStudio);
