@@ -40,7 +40,7 @@ export default StyleSheet.create({
     borderRadius: 8,
     height:40,
     width:80,
-    backgroundColor: Colors.purple,
+    backgroundColor: Colors.fire,
     justifyContent: 'center'
   },
   loginText: {
@@ -66,17 +66,17 @@ export default StyleSheet.create({
     borderTopRightRadius:0,
     borderBottomLeftRadius: 9,
     borderBottomRightRadius: 0,
-    backgroundColor:'#6f2c6f' ,
+    backgroundColor:Colors.fire ,
     height: 51,
     width: 45,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth:4,
-    borderColor:Colors.purple
+    borderColor:Colors.fire
   },
   sliderWrapper: {
     borderWidth: 4,
-    borderColor:Colors.purple,
+    borderColor:Colors.fire,
     borderRadius:12,
     marginHorizontal: 35,
     marginVertical: 5

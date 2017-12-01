@@ -53,7 +53,7 @@ export default class HomeScreen extends Component {
     const question = firebaseApp.database().ref().child(
       'users/' + user.uid + '/questions/' + params._key + '/');
 
-    /*  question.on('value', (dataSnapshot) => {
+     question.on('value', (dataSnapshot) => {
         console.log(dataSnapshot);
       this.setState({
         responseUrl: dataSnapshot.child('responseUrl').val()
@@ -61,7 +61,7 @@ export default class HomeScreen extends Component {
 
 
       console.log('log40 ', dataSnapshot.child('responseUrl').val());
-    });*/
+    });
       AWS.config.region = AWSConfig.region;
       AWS.config.accessKeyId = AWSConfig.accessKey;
       AWS.config.secretAccessKey = AWSConfig.secretKey;
@@ -392,13 +392,13 @@ renderResponseButton =() => {
 
   const question = firebaseApp.database().ref().child(
     'users/' + user.uid + '/questions/' + params._key + '/');
-let responseUrl;
+/*let responseUrl = null;
     question.on('value', (dataSnapshot) => {
-      console.log(dataSnapshot);
-      responseUrl = dataSnapshot.child('responseUrl').val()
-    });
 
-  if (responseUrl !== null) {
+      responseUrl = dataSnapshot.child('responseUrl').val();
+    });*/
+
+  if (this.state.responseUrl !== null) {
     return (
       <RoundedButton style={Styles.loginButton} onPress={this.handleDownloadResponse}>
         View Uploaded Response
@@ -408,7 +408,7 @@ let responseUrl;
     return (
       <TouchableOpacity style={styles.button} onPress={this.selectVideoTapped.bind(this)}>
 
-          <Text style={styles.buttonText}>SELECT VIDEO</Text>
+          <Text style={styles.buttonText}>RECORD / SELECT VIDEO</Text>
 
       </TouchableOpacity>
     );

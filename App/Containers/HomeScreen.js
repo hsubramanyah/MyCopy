@@ -86,7 +86,7 @@ export default class HomeScreen extends Component {
   render() {
     return (
       <ImageBackground source={background} style={[Styles.backgroundImage]}>
-        <ScrollView contentContainerStyle={{justifyContent: 'center'}} style={[Styles.container]} keyboardShouldPersistTaps='always'>
+        <ScrollView contentContainerStyle={{justifyContent: 'space-around'}} style={[Styles.container]} keyboardShouldPersistTaps='always'>
         <View style={Styles.logoWrapper}>
           <Image source={mettlesporticon} style={[Styles.topLogo, this.state.topLogo]} />
           </View>

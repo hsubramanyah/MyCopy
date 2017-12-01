@@ -35,8 +35,8 @@ class SignUpScreen extends React.Component {
   constructor (props) {
     super(props)
     //var ques1={};
-    question1 = firebaseApp.database().ref('/questions/question1');
-    question1.on('value', (dataSnapshot) => {
+    /*question1 = firebaseApp.database().ref('/questions/question1');
+    question1.once('value', (dataSnapshot) => {
       ques1={
       text: dataSnapshot.child("text").val(),
       response: false,
@@ -46,7 +46,7 @@ class SignUpScreen extends React.Component {
       this.questions ={
         question1: ques1
       }
-    });
+    });*/
 
 
     this.state = {
@@ -78,7 +78,7 @@ class SignUpScreen extends React.Component {
     clearInterval(this.state.interval);
   }
 
-  createFoldersInAWS() {
+  /*createFoldersInAWS() {
     const file = {
       // `uri` can also be a file system path (i.e. file://)
       uri: '/Users/macpc/Desktop/images.jpeg',
@@ -102,7 +102,7 @@ class SignUpScreen extends React.Component {
         throw new Error("Failed to upload image to S3");
       console.log(response.body);
     });
-  }
+  }*/
 
   keyboardDidShow = (e) => {
     // Animation types easeInEaseOut/linear/spring
@@ -150,28 +150,42 @@ class SignUpScreen extends React.Component {
                 phoneNumber : phoneNumber
 
           }).then(()=>{
+            const userQuestion1 = firebaseApp.database().ref('/questions/question1');
+            userQuestion1.once('value', (dataSnapshot) => {
+              ques1={
+              text: dataSnapshot.child("text").val(),
+              response: false,
+              feedback: false
 
-            this.getFirebaseRef().child('users/'+firebaseApp.auth().currentUser.uid+'/questions').set( this.questions
+              }
+              this.questions ={
+                question1: ques1
+              }
 
-            ).then(()=>{
+              console.log(this.questions);
+              this.getFirebaseRef().child('users/'+firebaseApp.auth().currentUser.uid+'/questions').set(
+                this.questions
 
-                firebaseApp.auth().currentUser.sendEmailVerification().then(()=>{
-                  navigate('login');
-                  alert("Please check your email for the verification link");
+              ).then(()=>{
 
-                }).catch((error)=>{
-                // Handle Errors here.
-                  var errorCode = error.code;
-                  var errorMessage = error.message;
-                  alert(errorMessage);
-                });
-            }).catch((error)=>{
-              var errorCode = error.code;
-              var errorMessage = error.message;
-              alert(errorMessage);
+                  firebaseApp.auth().currentUser.sendEmailVerification().then(()=>{
+                    navigate('login');
+                    alert("Please check your email for the verification link");
+
+                  }).catch((error)=>{
+                  // Handle Errors here.
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    alert(errorMessage);
+                  });
+              }).catch((error)=>{
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                alert(errorMessage);
+              });
             });
-
-      }).catch((error)=>{
+      })
+      .catch((error)=>{
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
@@ -183,8 +197,6 @@ class SignUpScreen extends React.Component {
       var errorMessage = error.message;
       alert(errorMessage);
     });
-
-
   }
   getFirebaseRef() {
     return firebaseApp.database().ref();
@@ -193,7 +205,7 @@ class SignUpScreen extends React.Component {
     const { name, email, phoneNumber, password } = this.state;
     return (
       <ImageBackground source={background} style={[Styles.backgroundImage]}>
-        <ScrollView contentContainerStyle={{justifyContent: 'center'}} style={[Styles.container, {height: this.state.visibleHeight}]} keyboardShouldPersistTaps='always'>
+        <ScrollView contentContainerStyle={{justifyContent: 'center', paddingTop: 50}} style={[Styles.container, {height: this.state.visibleHeight}]} keyboardShouldPersistTaps='always'>
         <View style={Styles.textWrapper}>
               <Text style={Styles.textStyle}>
               Complete the fields below
@@ -297,15 +309,6 @@ class SignUpScreen extends React.Component {
                 <Text style={Styles.loginText}>SIGN UP</Text>
                 </TouchableOpacity>
                 </View>
-                <View style={Styles.sliderWrapper}>
-                <ImageSlider style={{marginHorizontal:.5, marginVertical:.5}} images={[
-                  image1,
-                  image2
-                  ]}
-                  position={this.state.position}
-                    onPositionChanged={position => this.setState({position})}/>
-
-                  </View>
 
 
               </ScrollView>

@@ -7,8 +7,6 @@ import LoginScreen from './LoginScreen';
 import HomeScreen from './HomeScreen';
 import ForgotPassScreen from './ForgotPassScreen';
 import SignUpScreen from './SignUpScreen';
-import PitchLocatorScreen from './PitchLocatorScreen';
-import AddPitchScreen from './AddPitchScreen';
 import PitchesScreen from './PitchesScreen';
 import SinglePitchFunctionsScreen from './SinglePitchFunctionsScreen';
 import PurchaseScreen from './PurchaseScreen';
@@ -25,15 +23,16 @@ const App = StackNavigator({
   login:{
       screen: LoginScreen,
       navigationOptions:{
-        headerStyle:{ position: 'absolute', backgroundColor: 'transparent', borderBottomWidth: 0, zIndex: 100, top: 0, left: 0, right: 0 },
+        headerStyle:{ position: 'absolute', backgroundColor: '#3cc1e7', borderBottomWidth: 0, zIndex: 100, top: 0, left: 0, right: 0 },
         headerVisible: false,
         headerLeft: null,
+        title: 'Login'
       }
   },
   home:{
       screen: HomeScreen,
       navigationOptions:{
-        headerStyle:{ position: 'absolute', backgroundColor: 'transparent', zIndex: 100, top: 0, left: 0, right: 0 },
+        headerStyle:{ position: 'absolute', backgroundColor: '#3cc1e7', zIndex: 100, top: 0, left: 0, right: 0 },
         headerVisible: false,
         title: 'Home',
         headerLeft: null,
@@ -42,37 +41,23 @@ const App = StackNavigator({
   signUp:{
       screen: SignUpScreen,
       navigationOptions:{
-        headerStyle:{ position: 'absolute', backgroundColor: 'transparent', zIndex: 100, top: 0, left: 0, right: 0 },
+        headerStyle:{ position: 'absolute', backgroundColor: '#3cc1e7', zIndex: 100, top: 0, left: 0, right: 0 },
         title:'Sign Up'
       }
   },
   forgotPass:{
       screen: ForgotPassScreen,
       navigationOptions:{
-        headerStyle:{ position: 'absolute', backgroundColor: 'transparent', zIndex: 100, top: 0, left: 0, right: 0 },
+        headerStyle:{ position: 'absolute', backgroundColor: '#3cc1e7', zIndex: 100, top: 0, left: 0, right: 0 },
         title:'Reset Password'
       }
   },
-  pitchLocator:{
-      screen: PitchLocatorScreen,
-      navigationOptions:{
-        headerStyle:{ position: 'absolute', backgroundColor: 'transparent', zIndex: 100, top: 0, left: 0, right: 0 },
-        headerVisible: false,
-        title:'Pitch Locator'
-      }
-  },
-  addPitch:{
-      screen: AddPitchScreen,
-      navigationOptions:{
-        headerStyle:{ position: 'absolute', backgroundColor: 'transparent', zIndex: 100, top: 0, left: 0, right: 0 },
-        headerVisible: false,
-        title:'Add Pitch'
-      }
-  },
+
+
   pitchesScreen:{
       screen: PitchesScreen,
       navigationOptions:{
-        headerStyle:{ position: 'absolute', backgroundColor: 'transparent', zIndex: 100, top: 0, left: 0, right: 0 },
+        headerStyle:{ position: 'absolute', backgroundColor: '#3cc1e7', zIndex: 100, top: 0, left: 0, right: 0 },
         headerVisible: false,
         title:'Questions'
       }
@@ -80,7 +65,7 @@ const App = StackNavigator({
   singlePitchFunctionsScreen:{
       screen: SinglePitchFunctionsScreen,
       navigationOptions:{
-        headerStyle:{ position: 'absolute', backgroundColor: 'transparent', zIndex: 100, top: 0, left: 0, right: 0 },
+        headerStyle:{ position: 'absolute', backgroundColor: '#3cc1e7', zIndex: 100, top: 0, left: 0, right: 0 },
         headerVisible: false,
         title:'Record Video'
       }
@@ -89,6 +74,7 @@ const App = StackNavigator({
       screen: PurchaseScreen,
       navigationOptions: {
         headerStyle: { position: 'absolute',
+        backgroundColor: '#3cc1e7',
         //backgroundColor: 'transparent',
         zIndex: 100,
         top: 0,

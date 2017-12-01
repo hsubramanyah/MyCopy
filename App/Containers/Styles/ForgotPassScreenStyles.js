@@ -47,7 +47,7 @@ export default StyleSheet.create({
     borderRadius: 8,
     height:50,
     width:200,
-    backgroundColor: Colors.purple,
+    backgroundColor: Colors.fire,
     justifyContent: 'center'
   },
   loginText: {
@@ -81,13 +81,13 @@ export default StyleSheet.create({
     borderTopRightRadius:0,
     borderBottomLeftRadius: 9,
     borderBottomRightRadius: 0,
-    backgroundColor:'#6f2c6f' ,
+    backgroundColor:Colors.fire ,
     height: 51,
     width: 45,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth:4,
-    borderColor:Colors.purple
+    borderColor:Colors.fire
   },
   inputTextWrapper: {
     borderWidth: 4,
