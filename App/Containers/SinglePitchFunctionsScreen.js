@@ -10,7 +10,8 @@ import {
   TouchableOpacity,
   Image,
   ImageBackground,
-  Dimensions
+  Dimensions,
+  Linking
 } from 'react-native'
 import Colors from '../Themes/Colors'
 import firebaseApp from '../Config/FirebaseConfig'
@@ -22,6 +23,8 @@ import ImagePicker from 'react-native-image-picker';
 import getDirections from 'react-native-google-maps-directions'
 import AWSConfig from '../Config/AWS';
 import { RNS3 } from 'react-native-aws3';
+//import RNFS from 'react-native-fs';
+
 const AWS = require('aws-sdk');
 
 
@@ -33,22 +36,62 @@ const SCREEN_HEIGHT = height
 const SCREEN_WIDTH = width
 const ASPECT_RATIO = width / height
 const LATITUDE_DELTA = 0.0922
-const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
+const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 export default class HomeScreen extends Component {
   keyboardDidShowListener = {}
   keyboardDidHideListener = {}
+
   constructor(props) {
     super(props)
-    this.createFoldersInAWS();
-    this.pitchesRef = firebaseApp.database().ref().child('/pitches');
+    //this.createFoldersInAWS();
+    //this.pitchesRef = firebaseApp.database().ref().child('/pitches');
+    const { params } = this.props.navigation.state;
+    console.log(params);
+    const user = firebaseApp.auth().currentUser;
+
+    const question = firebaseApp.database().ref().child(
+      'users/' + user.uid + '/questions/' + params._key + '/');
+
+    /*  question.on('value', (dataSnapshot) => {
+        console.log(dataSnapshot);
+      this.setState({
+        responseUrl: dataSnapshot.child('responseUrl').val()
+      });
+
+
+      console.log('log40 ', dataSnapshot.child('responseUrl').val());
+    });*/
+      AWS.config.region = AWSConfig.region;
+      AWS.config.accessKeyId = AWSConfig.accessKey;
+      AWS.config.secretAccessKey = AWSConfig.secretKey;
+
+
+      const s3Client = new AWS.S3();
+      const params1 = { Bucket: AWSConfig.bucket,
+                        Prefix: `${user.email}/${params._key}/feedback/`,
+                       };
+
+      s3Client.listObjectsV2(params1, (err, data) => {
+        if (err) {
+          console.log('Error listing the folder: ', err);
+      } else {
+        console.log(data.Contents);
+        if (data.Contents.length > 1) {
+          var url = encodeURI('https://s3.amazonaws.com/' + AWSConfig.bucket + '/' +data.Contents[1].Key)
+          this.setState({ feedback: url })
+        }
+        //data.contents.forEach()
+      }
+  });
+
 
     this.state = {
       topLogo: { width: Metrics.screenWidth },
       avatarSource: null,
       videoSource: null,
-
-      initialPosition:{
+      feedback: null,
+      initialPosition: {
         latitude: 0,
         longitude: 0,
         latitudeDelta: 0,
@@ -58,7 +101,8 @@ export default class HomeScreen extends Component {
     }
   }
 
-  watchId: ?number=null
+
+  /*watchId: ?number=null
   // componentDidMount() {
   //   this.watchId = navigator.geolocation.watchPosition(
   //     (position) => {
@@ -129,11 +173,13 @@ export default class HomeScreen extends Component {
       visibleHeight: Metrics.screenHeight,
       topLogo: {width: Metrics.screenWidth}
     })
-  }
+  }*/
 
   createFoldersInAWS=() => {
     const { params } = this.props.navigation.state;
     const user = firebaseApp.auth().currentUser;
+    const question = firebaseApp.database().ref().child(
+      'users/' + user.uid + '/questions/' + params._key + '/');
     console.log(this.props.navigation.state);
     const file = {
       // `uri` can also be a file system path (i.e. file://)
@@ -145,7 +191,7 @@ export default class HomeScreen extends Component {
 
     const options = {
       keyPrefix: `${user.email}/${params._key}/response/`,
-      bucket: 'react-app-store-video',
+      bucket: AWSConfig.bucket,
 
       successActionStatus: 201,
       acl: 'public-read',
@@ -153,7 +199,7 @@ export default class HomeScreen extends Component {
       accessKey: AWSConfig.accessKey,
       secretKey: AWSConfig.secretKey
     }
-    const question = firebaseApp.database().ref().child('users/' + user.uid + '/questions/' + params._key + '/');
+    //const question = firebaseApp.database().ref().child('users/' + user.uid + '/questions/' + params._key + '/');
 
     RNS3.put(file, options).then(response => {
       if (response.status !== 201) {
@@ -171,7 +217,7 @@ responseUrl: response.body.postResponse.location});
     AWS.config.secretAccessKey = AWSConfig.secretKey;
 
     const s3Client = new AWS.S3();
-    const params1 = { Bucket: 'react-app-store-video',
+    const params1 = { Bucket: AWSConfig.bucket,
                       Key: `${user.email}/${params._key}/feedback/`,
                       ACL: 'public-read',
                       Body: 'body' };
@@ -187,10 +233,10 @@ responseUrl: response.body.postResponse.location});
 
   handlePressLogout = () =>{
     const { navigate } = this.props.navigation;
-    firebaseApp.auth().signOut().then(()=>{
+    firebaseApp.auth().signOut().then(() => {
       this.isAttempting = false
       navigate('login');
-    }).catch(function(error) {
+    }).catch((error) => {
       // Handle Errors here.
       var errorCode = error.code;
       var errorMessage = error.message;
@@ -198,7 +244,7 @@ responseUrl: response.body.postResponse.location});
     });
   }
 
-  handlePressGetDirections = () => {
+  /*handlePressGetDirections = () => {
     //const { navigate } = this.props.navigation;
     //navigate('pitchesScreen');
     const { params } = this.props.navigation.state;
@@ -226,21 +272,22 @@ responseUrl: response.body.postResponse.location});
       ]
   }
     getDirections(data);
-  }
-  handlePressPitchDetails = () => {
+  }*/
+  handlePressUploadResponse = () => {
     const { params } = this.props.navigation.state;
     //const { navigate } = this.props.navigation;
     //navigate('addPitch');
     //<Text>{`${params.title} \n`}</Text>
-    var a = params.title;
+    /*var a = params.title;
     var b = params.address;
     var c = params.surface;
     var d = params.lights;
-    var e = params.size;
+    var e = params.size;*/
+    this.createFoldersInAWS();
     Alert.alert("Your Response has been uploaded successfully!");
   }
 
-  selectPhotoTapped() {
+  /*selectPhotoTapped() {
     const options = {
       quality: 1.0,
       maxWidth: 500,
@@ -274,7 +321,7 @@ responseUrl: response.body.postResponse.location});
         });
       }
     });
-  }
+  }*/
 
   selectVideoTapped() {
     const options = {
@@ -295,34 +342,111 @@ responseUrl: response.body.postResponse.location});
       }
       else if (response.customButton) {
         console.log('User tapped custom button: ', response.customButton);
-      }
-      else {
+      } else {
         this.setState({
           videoSource: response.uri
-        });
-        this.createFoldersInAWS();
+      });
+
 }
     });
   }
+handleDownloadFeedback = () => {
 
+  if (this.state.feedback === null ) {
+    alert('No Feedback Available');
+  } else {
+    //alert('Test');
+    //alert(`path ${RNFS.DocumentDirectoryPath}`)
+    /*RNFS.downloadFile({
+        fromUrl: this.state.feedback,
+        toFile: `${RNFS.DocumentDirectoryPath}/react-native.png`,
+      }).promise.then((r) => {
+        alert('File Successfully Downloaded');
+        this.setState({ isDone: true })
+      });*/
+      Linking.canOpenURL(this.state.feedback).then(supported => {
+  if (!supported) {
+    console.log('Can\'t handle url: ' + this.state.feedback);
+  } else {
+    return Linking.openURL(this.state.feedback);
+  }
+}).catch(err => console.error('An error occurred', err));
+  }
+}
+
+handleDownloadResponse = () => {
+  Linking.canOpenURL(this.state.responseUrl).then(supported => {
+    if (!supported) {
+      console.log('Can\'t handle url: ' + this.state.feedback);
+    } else {
+      return Linking.openURL(this.state.responseUrl);
+    }
+  }).catch(err => console.error('An error occurred', err));
+}
+
+
+renderResponseButton =() => {
+  const { params } = this.props.navigation.state;
+  console.log(params);
+  const user = firebaseApp.auth().currentUser;
+
+  const question = firebaseApp.database().ref().child(
+    'users/' + user.uid + '/questions/' + params._key + '/');
+let responseUrl;
+    question.on('value', (dataSnapshot) => {
+      console.log(dataSnapshot);
+      responseUrl = dataSnapshot.child('responseUrl').val()
+    });
+
+  if (responseUrl !== null) {
+    return (
+      <RoundedButton style={Styles.loginButton} onPress={this.handleDownloadResponse}>
+        View Uploaded Response
+      </RoundedButton>
+    );
+  } else if (this.state.videoSource === null) {
+    return (
+      <TouchableOpacity style={styles.button} onPress={this.selectVideoTapped.bind(this)}>
+
+          <Text style={styles.buttonText}>SELECT VIDEO</Text>
+
+      </TouchableOpacity>
+    );
+  } else {
+    return (
+      <View>
+      <TouchableOpacity style={styles.button} >
+
+        <Text style={styles.buttonText}>VIDEO SELECTED</Text>
+
+        </TouchableOpacity>
+
+        <RoundedButton style={Styles.loginButton} onPress={this.handlePressUploadResponse}>
+          Upload Response
+        </RoundedButton>
+        </View>
+      );
+  }
+}
 
   render() {
 
     return (
       <ImageBackground source={background} style={[Styles.backgroundImage]}>
-        <ScrollView contentContainerStyle={{justifyContent: 'center'}} style={[Styles.container]} keyboardShouldPersistTaps='always'>
+        <ScrollView
+          contentContainerStyle={{ justifyContent: 'center' }}
+          style={[Styles.container]} keyboardShouldPersistTaps='always'
+        >
         <View style={Styles.logoWrapper}>
           <Image source={mettlesporticon} style={[Styles.topLogo, this.state.topLogo]} />
           </View>
           <View>
             <View>
-                <TouchableOpacity style={styles.button} onPress={this.selectVideoTapped.bind(this)}>
-                  { this.state.videoSource === null ? <Text style={styles.buttonText}>SELECT VIDEO</Text> :
-                    <Text style={styles.buttonText}>VIDEO SELECTED</Text>
-                  }
-                </TouchableOpacity>
-                <RoundedButton style={Styles.loginButton} onPress={this.handlePressPitchDetails}>
-                  Upload Response
+                {
+                  this.renderResponseButton()
+                }
+                <RoundedButton style={Styles.loginButton} onPress={this.handleDownloadFeedback}>
+                  View Feedback
                 </RoundedButton>
                 <RoundedButton style={Styles.loginButton} onPress={this.handlePressLogout}>
                   Logout

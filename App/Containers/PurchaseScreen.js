@@ -116,23 +116,6 @@ export default class PurchaseScreen extends Component {
                 fontSize: 16
                 }}
               >
-                 Top-Tier Professionals
-                 This is a place holder for question description.
-                 This is a place holder for question description.
-                 This is a place holder for question description.
-                 This is a place holder for question description.
-                 This is a place holder for question description
-                 Top-Tier Professionals
-                 This is a place holder for question description.
-                 This is a place holder for question description.
-                 This is a place holder for question description.
-                 This is a place holder for question description.
-                 This is a place holder for question description.
-                 Top-Tier Professionals
-                 This is a place holder for question description.
-                 This is a place holder for question description.
-                 This is a place holder for question description.
-                 This is a place holder for question description.
                  This is a place holder for question description.
 
               </Text>
@@ -149,7 +132,7 @@ export default class PurchaseScreen extends Component {
             />
             <RoundedButton
               style={Styles.loginButton}
-              text='Purchase all Question'
+              text='Purchase all Questions'
               onPress={this.handlePurchaseAll}
             />
 

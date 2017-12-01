@@ -3,6 +3,7 @@ package com.mymap2;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.rnfs.RNFSPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.hauvo.compress.RNCompressPackage;
@@ -30,6 +31,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNFSPackage(),
             new RNSpinkitPackage(),
             new ImagePickerPackage(),
             new RNCompressPackage(),

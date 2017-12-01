@@ -1,5 +1,6 @@
 {
 	"name": "MyMap2",
+	"displayName": "Interview Studio",
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
@@ -7,10 +8,12 @@
 		"test": "jest"
 	},
 	"dependencies": {
+		"aws-sdk": "^2.133.0",
 		"firebase": "3.9.0",
 		"moment": "^2.19.1",
 		"react": "16.0.0-alpha.12",
 		"react-native": "0.48.4",
+		"react-native-aws3": "0.0.8",
 		"react-native-beautiful-video-recorder": "^1.2.0",
 		"react-native-blur": "3.0.0-alpha",
 		"react-native-camera": "^0.10.0",
@@ -22,10 +25,8 @@
 		"react-native-maps": "0.16.4",
 		"react-native-spinkit": "^1.1.1",
 		"react-native-vector-icons": "^4.0.1",
-		"react-native-aws3": "0.0.8",
-		"aws-sdk": "^2.133.0",
-		"touchable-elastic": "^1.0.2",
-		"react-navigation": "git+https://github.com/react-community/react-navigation.git"
+		"react-navigation": "git+https://github.com/react-community/react-navigation.git",
+		"touchable-elastic": "^1.0.2"
 	},
 	"devDependencies": {
 		"babel-jest": "21.2.0",

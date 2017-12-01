@@ -95,13 +95,6 @@ export default class HomeScreen extends Component {
                 <RoundedButton style={Styles.loginButton} onPress={this.handlePressFindPitch}>
                   Interview Question List
                 </RoundedButton>
-                <RoundedButton style={Styles.loginButton} onPress={this.start}>
-		  	          Record Video
-                </RoundedButton>
-		            <VideoRecorder ref={(ref) => { this.videoRecorder = ref; }} compressQuality={'medium'} />
-                <RoundedButton style={Styles.loginButton} onPress={this.handlePressAddPitch}>
-                  View Response
-                </RoundedButton>
                 <RoundedButton style={Styles.loginButton} onPress={this.handlePressLogout}>
                   Logout
                 </RoundedButton>
