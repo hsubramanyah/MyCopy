@@ -396,6 +396,7 @@
 		8D82BE4BEB064E59AC492B68 /* AirMaps.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = AirMaps.xcodeproj; path = "../node_modules/react-native-maps/lib/ios/AirMaps.xcodeproj"; sourceTree = "<group>"; };
 		9C1720BF09164EC082FDA5C9 /* libRCTActionSheet.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTActionSheet.a; sourceTree = "<group>"; };
 		9DD21D20080E4EFFB9D995CB /* RNCompress.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNCompress.xcodeproj; path = "../node_modules/react-native-compress/ios/RNCompress.xcodeproj"; sourceTree = "<group>"; };
+		A3866CE61FD6220400FB437C /* InterviewStudio.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = InterviewStudio.xcodeproj; sourceTree = "<group>"; };
 		A549DA82F3074D51ABCC7151 /* RCTCamera.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTCamera.xcodeproj; path = "../node_modules/react-native-camera/ios/RCTCamera.xcodeproj"; sourceTree = "<group>"; };
 		A7B445F4840D45C5B1C432C0 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		AA7855D7AB0845AC9C86F9BC /* libRNMov2mp4.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNMov2mp4.a; sourceTree = "<group>"; };
@@ -643,6 +644,7 @@
 				00E356EF1AD99517003FC87E /* InterviewStudioTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				BDFA9C4B98FA4F6AB94CB0E2 /* Resources */,
+				A3866CE51FD6220400FB437C /* Frameworks */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -733,6 +735,19 @@
 				A3866CE21FD1188E00FB437C /* TouchableElastic-tvOS.app */,
 				A3866CE41FD1188E00FB437C /* TouchableElastic-tvOSTests.xctest */,
 			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A3866CE51FD6220400FB437C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A3866CE61FD6220400FB437C /* InterviewStudio.xcodeproj */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A3866CE71FD6220400FB437C /* Products */ = {
+			isa = PBXGroup;
 			name = Products;
 			sourceTree = "<group>";
 		};
@@ -876,6 +891,10 @@
 				{
 					ProductGroup = A3866C991FD1188E00FB437C /* Products */;
 					ProjectRef = 8D82BE4BEB064E59AC492B68 /* AirMaps.xcodeproj */;
+				},
+				{
+					ProductGroup = A3866CE71FD6220400FB437C /* Products */;
+					ProjectRef = A3866CE61FD6220400FB437C /* InterviewStudio.xcodeproj */;
 				},
 				{
 					ProductGroup = 00C302A81ABCB8CE00DB3ED1 /* Products */;

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import {
   Alert,
   View,
@@ -20,7 +20,6 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Metrics from '../Themes/Metrics'
 import RoundedButton from '../Components/RoundedButton'
 import ImagePicker from 'react-native-image-picker';
-import getDirections from 'react-native-google-maps-directions'
 import AWSConfig from '../Config/AWS';
 import { RNS3 } from 'react-native-aws3';
 //import RNFS from 'react-native-fs';
@@ -91,6 +90,7 @@ export default class HomeScreen extends Component {
       avatarSource: null,
       videoSource: null,
       feedback: null,
+      responseUrl: null,
       initialPosition: {
         latitude: 0,
         longitude: 0,
@@ -183,8 +183,8 @@ export default class HomeScreen extends Component {
     console.log(this.props.navigation.state);
     const file = {
       // `uri` can also be a file system path (i.e. file://)
-      uri: '/Users/macpc/Downloads/sample_iTunes.mov',
-      //uri: this.state.videoSource,
+      //uri: '/Users/macpc/Downloads/sample_iTunes.mov',
+      uri: this.state.videoSource,
       name: `${params._key}_response.mov`,
       type: 'video/quicktime'
     }
@@ -392,41 +392,42 @@ renderResponseButton =() => {
 
   const question = firebaseApp.database().ref().child(
     'users/' + user.uid + '/questions/' + params._key + '/');
-/*let responseUrl = null;
-    question.on('value', (dataSnapshot) => {
+    /*let responseUrl = null;
+    question.once('value', (dataSnapshot) => {
 
       responseUrl = dataSnapshot.child('responseUrl').val();
-    });*/
+      alert(responseUrl);*/
+      if (this.state.responseUrl !== null) {
+        return (
+          <RoundedButton style={Styles.loginButton} onPress={this.handleDownloadResponse}>
+            View Uploaded Response
+          </RoundedButton>
+        );
+      } else if (this.state.videoSource === null) {
+        return (
+          <TouchableOpacity style={styles.button} onPress={this.selectVideoTapped.bind(this)}>
 
-  if (this.state.responseUrl !== null) {
-    return (
-      <RoundedButton style={Styles.loginButton} onPress={this.handleDownloadResponse}>
-        View Uploaded Response
-      </RoundedButton>
-    );
-  } else if (this.state.videoSource === null) {
-    return (
-      <TouchableOpacity style={styles.button} onPress={this.selectVideoTapped.bind(this)}>
+              <Text style={styles.buttonText}>RECORD / SELECT VIDEO</Text>
 
-          <Text style={styles.buttonText}>RECORD / SELECT VIDEO</Text>
+          </TouchableOpacity>
+        );
+      } else {
+        return (
+          <View>
+          <TouchableOpacity style={styles.button} onPress={this.selectVideoTapped.bind(this)}>
 
-      </TouchableOpacity>
-    );
-  } else {
-    return (
-      <View>
-      <TouchableOpacity style={styles.button} >
+            <Text style={styles.buttonText}>RESELECT VIDEO</Text>
 
-        <Text style={styles.buttonText}>VIDEO SELECTED</Text>
+            </TouchableOpacity>
 
-        </TouchableOpacity>
+            <RoundedButton style={Styles.loginButton} onPress={this.handlePressUploadResponse}>
+              Upload Response
+            </RoundedButton>
+            </View>
+          );
+      }
 
-        <RoundedButton style={Styles.loginButton} onPress={this.handlePressUploadResponse}>
-          Upload Response
-        </RoundedButton>
-        </View>
-      );
-  }
+
 }
 
   render() {

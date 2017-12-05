@@ -5,7 +5,8 @@ import {
   ScrollView,
   Image,
   ImageBackground,
-  Dimensions
+  Dimensions,
+  Alert
 } from 'react-native';
 import Colors from '../Themes/Colors';
 import Styles from './Styles/LoginScreenStyles';
@@ -29,22 +30,35 @@ export default class PurchaseScreen extends Component {
     this.userQuestions =
     firebaseApp.database().ref(`users/${firebaseApp.auth().currentUser.uid}/questions`);
 
-    if (this.purchase()) {
-      this.userQuestions.child(params._key).set({
-        text: params.text,
-        feedback: false,
-        response: false
-      }).then(() => {
-        const { navigate } = this.props.navigation;
-        alert('Question Unlocked!');
-        navigate('home');
-        //this.props.navigation.pop();
-      }).catch((error) => {
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        alert(errorMessage);
-      });
-    }
+      Alert.alert(
+        'Confirm Message',
+        `Are you sure you want to purchase this question for $${params.price}`,
+        [
+          { text: 'Yes' , onPress: () => {
+            if (this.purchase()) {
+
+              this.userQuestions.child(params._key).set({
+                text: params.text,
+                feedback: false,
+                response: false
+              }).then(() => {
+                const { navigate } = this.props.navigation;
+                alert('Question Unlocked!');
+                navigate('home');
+                //this.props.navigation.pop();
+              }).catch((error) => {
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                alert(errorMessage);
+              });
+            }
+          }
+        },
+        { text: 'Cancel', onPress: () => console.log('cancel') },
+        { cancelable: false }
+        ]
+      );
+
   }
 
   handlePurchaseAll = () => {
@@ -53,19 +67,37 @@ export default class PurchaseScreen extends Component {
     //this.allQuestions = firebaseApp.database().ref('/questions');
     this.userQuestions =
     firebaseApp.database().ref(`users/${firebaseApp.auth().currentUser.uid}/questions`);
-    if (this.purchase()) {
-      var i;
-      for (i = 0; i < params.lockedQuestions.length; i++) {
-        this.userQuestions.child(params.lockedQuestions[i]._key).set({
-          text: params.lockedQuestions[i].text,
-          feedback: false,
-          response: false
-        });
-      }
-      const { navigate } = this.props.navigation;
-      alert('All Questions Unlocked!');
-      navigate('home');
+    var j;
+    var total = 0;
+    for (j = 0; j < params.lockedQuestions.length; j++) {
+      total += params.lockedQuestions[j].price;
     }
+    Alert.alert(
+      'Confirm Message',
+      `Are you sure you want to purchase all questions for $${total}`,
+      [
+        { text: 'Yes' , onPress: () => {
+          if (this.purchase()) {
+            var i;
+
+            for (i = 0; i < params.lockedQuestions.length; i++) {
+              this.userQuestions.child(params.lockedQuestions[i]._key).set({
+                text: params.lockedQuestions[i].text,
+                feedback: false,
+                response: false
+              });
+            }
+            const { navigate } = this.props.navigation;
+            alert('All Questions Unlocked!');
+            navigate('home');
+          }
+        }
+      },
+      { text: 'Cancel', onPress: () => console.log('cancel') },
+      { cancelable: false }
+      ]
+    )
+
 
     /*if (this.purchase()) {
       this.userQuestions.child(params._key).set({

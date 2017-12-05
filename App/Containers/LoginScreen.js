@@ -83,9 +83,9 @@ class LoginScreen extends React.Component{
         this.isAttempting = false
         navigate('home');
       } else{
-        //alert('Please verfiy your email id!');
-        this.isAttempting = false
-        navigate('home');
+        alert('Please verfiy your email id!');
+        //this.isAttempting = false
+        //navigate('home');
       }
 
     }).catch(function(error) {

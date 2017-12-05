@@ -15,7 +15,6 @@ import RoundedButton from '../Components/RoundedButton'
 import firebaseApp from '../Config/FirebaseConfig'
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import FoundationIcon from 'react-native-vector-icons/Foundation';
-import ImageSlider from 'react-native-image-slider';
 import AWSConfig from '../Config/AWS';
 import { RNS3 } from 'react-native-aws3';
 
