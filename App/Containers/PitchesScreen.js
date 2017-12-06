@@ -100,11 +100,12 @@ class PitchesScreen extends React.Component {
     const unlockedQuestions = [];
     userQuestions.once('value', (dataSnapshot) => {
       dataSnapshot.forEach((child) => {
-        console.log(child.val());
-        console.log(child.key);
+        //console.log(child.val());
+        //console.log(child.key);
         unlockedQuestions.push({
           text: child.val().text,
-          _key: child.key
+          _key: child.key,
+          responseUrl: child.val().responseUrl
         });
       });
 
@@ -116,8 +117,8 @@ class PitchesScreen extends React.Component {
     const lockedQuestions = [];
     allQuestions.once('value', (dataSnapshot) => {
       dataSnapshot.forEach((child) => {
-        console.log(child.val());
-        console.log(child.key);
+        //console.log(child.val());
+        //console.log(child.key);
         if (!this.containsKey(unlockedQuestions, child.key)) {
           lockedQuestions.push({
             text: child.val().text,
@@ -126,7 +127,7 @@ class PitchesScreen extends React.Component {
           });
         }
       });
-console.log(lockedQuestions);
+//console.log(lockedQuestions);
     this.setState({
       dataSourcePurchaseQues: this.state.dataSourceUserQues.cloneWithRows(lockedQuestions),
       lockedQuestions: lockedQuestions
@@ -140,7 +141,8 @@ console.log(lockedQuestions);
       <TouchableOpacity
         onPress={() => this.props.navigation.navigate('singlePitchFunctionsScreen',
         { text: `${task.text}`,
-          _key: `${task._key}`
+          _key: `${task._key}`,
+          responseUrl: `${task.responseUrl}`
         })}
       >
 

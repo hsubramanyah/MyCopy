@@ -40,7 +40,7 @@ export default class PurchaseScreen extends Component {
               this.userQuestions.child(params._key).set({
                 text: params.text,
                 feedback: false,
-                response: false
+                responseUrl: 'a'
               }).then(() => {
                 const { navigate } = this.props.navigation;
                 alert('Question Unlocked!');
@@ -84,7 +84,7 @@ export default class PurchaseScreen extends Component {
               this.userQuestions.child(params.lockedQuestions[i]._key).set({
                 text: params.lockedQuestions[i].text,
                 feedback: false,
-                response: false
+                responseUrl: 'a'
               });
             }
             const { navigate } = this.props.navigation;

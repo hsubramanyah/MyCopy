@@ -90,7 +90,7 @@ export default class HomeScreen extends Component {
       avatarSource: null,
       videoSource: null,
       feedback: null,
-      responseUrl: null,
+      responseUrl: params.responseUrl,
       initialPosition: {
         latitude: 0,
         longitude: 0,
@@ -397,7 +397,7 @@ renderResponseButton =() => {
 
       responseUrl = dataSnapshot.child('responseUrl').val();
       alert(responseUrl);*/
-      if (this.state.responseUrl !== null) {
+      if (this.state.responseUrl !== 'a') {
         return (
           <RoundedButton style={Styles.loginButton} onPress={this.handleDownloadResponse}>
             View Uploaded Response

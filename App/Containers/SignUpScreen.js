@@ -153,7 +153,7 @@ class SignUpScreen extends React.Component {
             userQuestion1.once('value', (dataSnapshot) => {
               ques1={
               text: dataSnapshot.child("text").val(),
-              response: false,
+              responseUrl: 'a',
               feedback: false
 
               }
